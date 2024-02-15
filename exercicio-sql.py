@@ -4,7 +4,7 @@ conexao = sqlite3.connect('banco-womakers')
 
 cursor = conexao.cursor()
 
-'''''
+
 #1. Crie uma tabela chamada "alunos" com os seguintes campos: id(inteiro), nome (texto), idade (inteiro) e curso (texto).
 
 cursor.execute('CREATE TABLE alunos (id int, nome VARCHAR (100), idade int, curso VARCHAR (50));')
@@ -60,7 +60,7 @@ cursor.execute('INSERT INTO clientes (id, nome, idade, saldo) VALUES (3, "Enrico
 cursor.execute('INSERT INTO clientes (id, nome, idade, saldo) VALUES (4, "Bernardo", 65, 900);')
 cursor.execute('INSERT INTO clientes (id, nome, idade, saldo) VALUES (5, "Fábio", 56, 4000);')
 
-'''
+
 #6. Consultas e Funções Agregadas
 # a) Selecione o nome e a idade dos clientes com idade superior a 30 anos.
 mais30 = cursor.execute('SELECT nome, idade FROM clientes WHERE idade > 30')
@@ -71,7 +71,36 @@ for mais in mais30:
 cursor.execute('SELECT avg(saldo) FROM clientes')
 
 #c) Encontre o cliente com o saldo máximo.
+cursor.execute('SELECT nome WHERE saldo IN (SELECT max(saldo) FROM clientes) FROM clientes')
+
 #d) Conte quantos clientes têm saldo acima de 1000
+cursor.execute('SELECT nome, COUNT(*) FROM clientes WHERE saldo > 1000 GROUP BY nome')
+
+#7. Atualização e Remoção com Condições
+#a) Atualize o saldo de um cliente específico.
+cursor.execute('UPDATE clientes SET saldo = 1700 WHERE nome = "Maria" ')
+
+#b) Remova um cliente pelo seu ID
+cursor.execute('DELETE FROM clientes WHERE id = 1')
+
+
+
+#8. Junção de Tabelas
+
+#Crie uma segunda tabela chamada "compras" com os campos: id (chave primária), cliente_id (chave estrangeira referenciando o id da tabela "clientes"), produto (texto) e valor (real). Insira algumas compras associadas a clientes existentes na tabela "clientes". Escreva uma consulta para exibir o nome do cliente, o produto e o valor de cada compra.
+
+cursor.execute('CREATE TABLE compras (id int, cliente_id int, produto VARCHAR (100), valor real);')
+
+cursor.execute('INSERT INTO compras (id, cliente_id, produto, valor) VALUES (1, 5, "Esteira", 2000);')
+cursor.execute('INSERT INTO compras (id, cliente_id, produto, valor) VALUES (2, 3, "Relógio", 1000);')
+cursor.execute('INSERT INTO compras (id, cliente_id, produto, valor) VALUES (3, 1, "Celular", 3500);')
+cursor.execute('INSERT INTO compras (id, cliente_id, produto, valor) VALUES (4, 2, "Jóia", 500);')
+cursor.execute('INSERT INTO compras (id, cliente_id, produto, valor) VALUES (5, 4, "Camiseta", 50);')
+
+
+juncao = cursor.execute('SELECT produto, valor, clientes.nome FROM compras LEFT JOIN clientes WHERE clientes.id = compras.cliente_id')
+for client in juncao:
+    print(client)
 
 
 conexao.commit()
