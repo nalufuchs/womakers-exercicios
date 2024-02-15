@@ -6,8 +6,9 @@ cursor = conexao.cursor()
 
 
 #1. Crie uma tabela chamada "alunos" com os seguintes campos: id(inteiro), nome (texto), idade (inteiro) e curso (texto).
-
 cursor.execute('CREATE TABLE alunos (id int, nome VARCHAR (100), idade int, curso VARCHAR (50));')
+
+
 
 #2. Insira pelo menos 5 registros de alunos na tabela que você criou no exercício anterior.
 cursor.execute('INSERT INTO alunos (id, nome, idade, curso) VALUES (1, "Helena", 21, "Farmácia");')
@@ -41,12 +42,14 @@ for eng in engenheiros:
 cursor.execute('SELECT COUNT (nome) FROM alunos')
 
 
+
 #4. Atualização e Remoção
 # a) Atualize a idade de um aluno específico na tabela.
 cursor.execute('UPDATE alunos SET idade = 19 WHERE id = 6')
 
 #b) Remova um aluno pelo seu ID.
 cursor.execute('DELETE FROM alunos WHERE id = 3')
+
 
 
 #5. Criar uma Tabela e Inserir Dados
@@ -59,6 +62,7 @@ cursor.execute('INSERT INTO clientes (id, nome, idade, saldo) VALUES (2, "Maria"
 cursor.execute('INSERT INTO clientes (id, nome, idade, saldo) VALUES (3, "Enrico", 43, 10000);')
 cursor.execute('INSERT INTO clientes (id, nome, idade, saldo) VALUES (4, "Bernardo", 65, 900);')
 cursor.execute('INSERT INTO clientes (id, nome, idade, saldo) VALUES (5, "Fábio", 56, 4000);')
+
 
 
 #6. Consultas e Funções Agregadas
@@ -75,6 +79,8 @@ cursor.execute('SELECT nome WHERE saldo IN (SELECT max(saldo) FROM clientes) FRO
 
 #d) Conte quantos clientes têm saldo acima de 1000
 cursor.execute('SELECT nome, COUNT(*) FROM clientes WHERE saldo > 1000 GROUP BY nome')
+
+
 
 #7. Atualização e Remoção com Condições
 #a) Atualize o saldo de um cliente específico.
